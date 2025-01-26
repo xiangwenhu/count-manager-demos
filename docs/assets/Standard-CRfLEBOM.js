@@ -1,0 +1,1 @@
+import{S as t}from"./Standard-DdHVZUqu.js";import{d as o,c as a,o as e}from"./index-CIuFpk-4.js";import"./index-Cb82_rL4.js";const m=o({__name:"Standard",setup(r){return(n,s)=>(e(),a(t,{options:{start:60*1e3,notifyOnSubscribe:!1}}))}});export{m as default};
