@@ -1,0 +1,1 @@
+import{S as e}from"./Standard-DHpQJKIT.js";import{d as a,c as o,o as r}from"./index-C2XXLJdJ.js";import"./index-Cb82_rL4.js";const f=a({__name:"Increase",setup(s){return(t,n)=>(r(),o(e,{options:{start:0*1e3,isDecrease:!1,end:60*1e3,notifyOnSubscribe:!1}}))}});export{f as default};

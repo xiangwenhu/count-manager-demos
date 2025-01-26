@@ -1,5 +1,12 @@
 <template>
-  <Standard :options="{ start: 60 * 1000, notifyOnSubscribe: false }"></Standard>
+  <Standard
+    :options="{
+      start: 0 * 1000,
+      isDecrease: false,
+      end: 60 * 1000,
+      notifyOnSubscribe: false,
+    }"
+  ></Standard>
 </template>
 
 <script setup lang="ts">

@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onBeforeUnmount } from "vue";
-import { countManager, type SubScribeOptions,  } from "count-manger";
+import { reactive, ref ,onBeforeUnmount} from "vue";
+import { CountManger, type SubScribeOptions,  } from "count-manger";
 
-const props = defineProps<{options: SubScribeOptions}>()
+const props = defineProps<{options: SubScribeOptions, clockInterval?: number}>()
 
 const time = ref<number>(Date.now());
 
@@ -30,6 +30,10 @@ const state = reactive<{
   value:   props.options.start  != undefined ? ((props.options.start|| 0) / 1000) :  '',
   isOver: true,
 });
+
+const countManager = new CountManger({
+  interval: props.clockInterval || 1000
+})
 
 const subScriber = countManager.subScribe(
   ({ value, isOver }) => {
@@ -53,7 +57,6 @@ function onStart() {
   time.value = Date.now();
   subScriber.startListening();
 }
-
 onBeforeUnmount(() => {
   if(subScriber) subScriber.unSubscribe();
 })

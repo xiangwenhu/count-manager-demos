@@ -9,9 +9,19 @@ const router = createRouter({
       component: () => import('../views/Standard.vue'),
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/sameKey',
+      name: 'sameKey',
       component: () => import('../views/SameKey.vue'),
+    },
+    {
+      path: '/increase',
+      name: 'increase',
+      component: () => import('../views/Increase.vue'),
+    },
+    {
+      path: '/customClock',
+      name: 'customClock',
+      component: () => import('../views/CustomClock.vue'),
     },
   ],
 })
