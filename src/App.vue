@@ -5,7 +5,7 @@
     <ul class="menus">
       <li><RouterLink to="/">标准倒计时</RouterLink></li>
       <li><RouterLink to="/sameKey">同一个key计时</RouterLink></li>
-      <li><RouterLink to="/increase">增长计时</RouterLink></li>
+      <li><RouterLink to="/increase">增长计数</RouterLink></li>
       <li><RouterLink to="/customClock">自定义时钟周期</RouterLink></li>
     </ul>
 

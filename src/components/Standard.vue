@@ -2,9 +2,9 @@
   <div class="standard">
     <div>
       <div>
-        <button @click="onStart" :disabled="!state.isOver">开始计时</button>
+        <button @click="onStart" :disabled="!state.isOver">开始</button>
       </div>
-      <div>时间：{{ state.value }}</div>
+      <div>值：{{ state.value }}</div>
     </div>
 
     <div style="max-height: 500px; overflow-y: auto">
