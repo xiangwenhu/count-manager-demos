@@ -7,27 +7,31 @@
       <div>值：{{ state.value }}</div>
     </div>
 
-    <div style="max-height: 500px; overflow-y: auto">
+    <div style="max-height: 500px; overflow-y: auto" ref="refMsg">
       <div v-for="(message, index) in messages" :key="index">{{ message }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onBeforeUnmount } from "vue";
-import { countManager, type SubScribeOptions,  } from "count-manger";
+import { reactive, ref, onBeforeUnmount, nextTick } from "vue";
+import { countManager, type SubScribeOptions, } from "count-manger";
 
-const props = defineProps<{options: SubScribeOptions}>()
+const refMsg = ref<HTMLDivElement>();
+
+const props = defineProps<{ options: SubScribeOptions }>()
 
 const time = ref<number>(Date.now());
 
 const messages = ref<string[]>([]);
 
+
+
 const state = reactive<{
   value: number | '';
   isOver: boolean;
 }>({
-  value:   props.options.start  != undefined ? ((props.options.start|| 0) / 1000) :  '',
+  value: props.options.start != undefined ? ((props.options.start || 0) / 1000) : '',
   isOver: true,
 });
 
@@ -43,9 +47,17 @@ const subScriber = countManager.subScribe(
 
     time.value = d;
     messages.value.push(`执行时间${new Date(d).toJSON()}, 执行间隔: ${cost} ms`);
+
+    nextTick(() => {
+      const div = refMsg.value;
+      if (div) {
+        div.scrollTop = div.scrollHeight;
+      }
+    })
+
   },
   {
-  ...props.options
+    ...props.options
   }
 );
 
@@ -55,7 +67,7 @@ function onStart() {
 }
 
 onBeforeUnmount(() => {
-  if(subScriber) subScriber.unSubscribe();
+  if (subScriber) subScriber.unSubscribe();
 })
 </script>
 

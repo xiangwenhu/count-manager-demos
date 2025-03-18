@@ -1,0 +1,1 @@
+import{S as t}from"./Standard-C9oGkt6F.js";import{d as o,c as a,o as e}from"./index-BHmGlMk_.js";import"./index-DzERd5VE.js";const m=o({__name:"Standard",setup(r){return(n,s)=>(e(),a(t,{options:{start:60*1e3,notifyOnSubscribe:!1}}))}});export{m as default};
