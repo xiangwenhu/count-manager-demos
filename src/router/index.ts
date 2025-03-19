@@ -22,7 +22,11 @@ const router = createRouter({
       path: '/customClock',
       name: 'customClock',
       component: () => import('../views/CustomClock.vue'),
-    },
+    },{
+      path: '/clockFactor',
+      name: 'clockFactor',
+      component: () => import('../views/ClockFactor.vue'),
+    }
   ],
 })
 

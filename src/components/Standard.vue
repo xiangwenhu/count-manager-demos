@@ -15,17 +15,16 @@
 
 <script setup lang="ts">
 import { reactive, ref, onBeforeUnmount, nextTick } from "vue";
-import { countManager, type SubScribeOptions, } from "count-manger";
+import { counter, type SubScribeOptions, } from "clock-counter";
 
 const refMsg = ref<HTMLDivElement>();
 
 const props = defineProps<{ options: SubScribeOptions }>()
 
-const time = ref<number>(Date.now());
+const time = ref<number>(performance.now());
+const startTime = ref<number>(performance.now());
 
 const messages = ref<string[]>([]);
-
-
 
 const state = reactive<{
   value: number | '';
@@ -35,18 +34,24 @@ const state = reactive<{
   isOver: true,
 });
 
-const subScriber = countManager.subScribe(
+const subScriber = counter.subScribe(
   ({ value, isOver }) => {
     console.log("value:", value);
     state.isOver = isOver;
     state.value = value / 1000;
 
-    const d = Date.now();
+    const now = performance.now();
 
-    const cost = d - time.value;
+    const cost = now - time.value;
 
-    time.value = d;
-    messages.value.push(`执行时间${new Date(d).toJSON()}, 执行间隔: ${cost} ms`);
+    time.value = now;
+
+    const date = new Date();
+    messages.value.push(`执行时间${date.toJSON()}, 执行间隔: ${Math.ceil(cost)} ms`);
+
+    if (isOver) {
+      messages.value.push(`总耗时：${date.toJSON()}, 执行间隔: ${Math.ceil(now - startTime.value)} ms`);
+    }
 
     nextTick(() => {
       const div = refMsg.value;
@@ -62,7 +67,9 @@ const subScriber = countManager.subScribe(
 );
 
 function onStart() {
-  time.value = Date.now();
+  const now = performance.now();
+  time.value = now;
+  startTime.value = now;
   subScriber.startListening();
 }
 

@@ -15,9 +15,9 @@
     </div>
 
     <CustomClock
-      :key="`${coutM.interval}-${coutM.step}`"
-      :options="{ start: 60 * 1000, notifyOnSubscribe: false, step: coutM.step }"
-      :clock-interval="coutM.interval"
+      :key="`${countC.interval}-${countC.step}`"
+      :options="{ start: 60 * 1000, notifyOnSubscribe: false, step: countC.step }"
+      :clock-interval="countC.interval"
     ></CustomClock>
   </div>
 </template>
@@ -34,7 +34,7 @@ const state = reactive<{
   step: 200,
 });
 
-const coutM = reactive<{
+const countC = reactive<{
   interval: number;
   step: number;
 }>({
@@ -43,8 +43,8 @@ const coutM = reactive<{
 });
 
 function onSetClockInterval() {
-  coutM.interval = state.interval;
-  coutM.step = state.step;
+  countC.interval = state.interval;
+  countC.step = state.step;
 }
 
 onMounted(() => {

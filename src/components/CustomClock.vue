@@ -7,31 +7,33 @@
       <div>值：{{ state.value }}</div>
     </div>
 
-    <div style="max-height: 500px; overflow-y: auto">
+    <div style="max-height: 500px; overflow-y: auto" ref="refMsg">
       <div v-for="(message, index) in messages" :key="index">{{ message }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref ,onBeforeUnmount} from "vue";
-import { CountManger, type SubScribeOptions,  } from "count-manger";
+import { reactive, ref, onBeforeUnmount, nextTick } from "vue";
+import { Counter, type SubScribeOptions, } from "clock-counter";
 
-const props = defineProps<{options: SubScribeOptions, clockInterval?: number}>()
+const props = defineProps<{ options: SubScribeOptions, clockInterval?: number }>()
 
-const time = ref<number>(Date.now());
+const time = ref<number>(performance.now());
+const startTime = ref<number>(performance.now());
 
 const messages = ref<string[]>([]);
+const refMsg = ref<HTMLDivElement>();
 
 const state = reactive<{
   value: number | '';
   isOver: boolean;
 }>({
-  value:   props.options.start  != undefined ? ((props.options.start|| 0) / 1000) :  '',
+  value: props.options.start != undefined ? ((props.options.start || 0) / 1000) : '',
   isOver: true,
 });
 
-const countManager = new CountManger({
+const countManager = new Counter({
   interval: props.clockInterval || 1000
 })
 
@@ -41,24 +43,40 @@ const subScriber = countManager.subScribe(
     state.isOver = isOver;
     state.value = value / 1000;
 
-    const d = Date.now();
+    const now = performance.now();
 
-    const cost = d - time.value;
+    const cost = now - time.value;
 
-    time.value = d;
-    messages.value.push(`执行时间${new Date(d).toJSON()}, 执行间隔: ${cost} ms`);
+    time.value = now;
+
+    const date = new Date();
+    messages.value.push(`执行时间${date.toJSON()}, 执行间隔: ${Math.ceil(cost)} ms`);
+
+    if (isOver) {
+      messages.value.push(`总耗时：${date.toJSON()}, 执行间隔: ${Math.ceil(now - startTime.value)} ms`);
+    }
+
+    nextTick(() => {
+      const div = refMsg.value;
+      if (div) {
+        div.scrollTop = div.scrollHeight;
+      }
+    })
+
   },
   {
-  ...props.options
+    ...props.options
   }
 );
 
 function onStart() {
-  time.value = Date.now();
+  const now = performance.now();
+  time.value = now;
+  startTime.value = now;
   subScriber.startListening();
 }
 onBeforeUnmount(() => {
-  if(subScriber) subScriber.unSubscribe();
+  if (subScriber) subScriber.unSubscribe();
 })
 </script>
 
