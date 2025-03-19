@@ -1,1 +1,0 @@
-import{S as e}from"./Standard-C9oGkt6F.js";import{d as a,c as o,o as r}from"./index-BHmGlMk_.js";import"./index-DzERd5VE.js";const f=a({__name:"Increase",setup(s){return(t,n)=>(r(),o(e,{options:{start:0*1e3,isDecrease:!1,end:60*1e3,notifyOnSubscribe:!1}}))}});export{f as default};
